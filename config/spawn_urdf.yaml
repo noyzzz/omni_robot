@@ -1,0 +1,20 @@
+robot:
+
+    joint_state_controller:
+        type: joint_state_controller/JointStateController
+        publish_rate: 100
+
+    right_joint_velocity_controller:
+        type: effort_controllers/JointVelocityController
+        joint: joint_right_wheel
+        pid: {p: 10.0, i: 10.0, d: 0.01}
+
+    left_joint_velocity_controller:
+        type: effort_controllers/JointVelocityController
+        joint: joint_left_wheel
+        pid: {p: 10.0, i: 10.0, d: 0.01}
+        
+    left2_joint_velocity_controller:
+        type: effort_controllers/JointVelocityController
+        joint: joint_left2_wheel
+        pid: {p: 10.0, i: 10.0, d: 0.01}
