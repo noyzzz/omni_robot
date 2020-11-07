@@ -159,7 +159,7 @@
 
 
     <link name="camera_link">
-	<origin xyz="${right_wheel_x} ${0} ${camera_z}" rpy="0 0 0" />
+	<origin xyz="${0} ${0} ${camera_z}" rpy="0 0 0" />
       <collision>
         <geometry>
           <box size="${sensor_size} ${sensor_size} ${sensor_size}" />
@@ -186,7 +186,7 @@
     <joint name="camera_joint" type="fixed">
         <parent link="${parent}"/>
         <child link="camera_link"/>
-        <origin xyz="${right_wheel_x} ${0} ${camera_z}" rpy="0 0 0" />
+        <origin xyz="${0} ${0} ${camera_z}" rpy="0 0 0" />
         <axis xyz="1 0 0" />
     </joint>
     
@@ -227,13 +227,11 @@
       </sensor>
     </gazebo>
   </xacro:macro>
-  
-  
-  <xacro:macro name="sonar_link" params="parent">
+  <xacro:macro name="sonar_link_gen" params="parent link_name link_x link_y link_z link_r link_p link_yaw">
   
       
-   <link name="sonar_link">
-        <origin xyz="${left2_wheel_x} ${left2_wheel_y} ${camera_z}" rpy="0 0 ${M_PI/2}" />
+   <link name="${link_name}">
+        <origin xyz="${link_x} ${link_y} ${link_z}" rpy="${link_r} ${link_p} ${link_yaw}" />
       <collision>
         <geometry>
           <box size="${sensor_size} ${sensor_size} ${sensor_size}" />
@@ -256,16 +254,16 @@
   </link>
 
   
-     <joint name="sonar_joint" type="fixed">
+     <joint name="${link_name}_joint" type="fixed">
         <parent link="${parent}"/>
-        <child link="sonar_link"/>
-        <origin rpy="0 0 ${M_PI/2 + M_PI/6}" xyz="${left2_wheel_x} ${left2_wheel_y} ${camera_z}"/>
+        <child link="${link_name}"/>
+        <origin rpy="${link_r} ${link_p} ${link_yaw}" xyz="${link_x} ${link_y} ${link_z}"/>
         <axis xyz="1 0 0" />
     </joint>
   
   
-      <gazebo reference="sonar_link">
-	    <sensor type="ray" name="sonar">
+      <gazebo reference="${link_name}">
+	    <sensor type="ray" name="sonar_${link_name}">
 	  <pose>0.25 0 0 0 0 0</pose>
 	  <update_rate>5</update_rate>
 	  <ray>
@@ -293,8 +291,8 @@
 	    <gaussianNoise>0.005</gaussianNoise>
 	    <alwaysOn>true</alwaysOn>
 	    <updateRate>5</updateRate>
-	    <topicName>sonar</topicName>
-	    <frameName>sonar_link</frameName>
+	    <topicName>sonar_${link_name}</topicName>
+	    <frameName>${link_name}</frameName>
 	    <fov>0.5</fov>
 	    <radiation>ultrasound</radiation>
 	  </plugin>
@@ -331,8 +329,12 @@
   
 
 
-  <xacro:sonar_link parent="base_link" />
-  
+  <xacro:sonar_link_gen parent="base_link" link_name="sonar_link_1" link_x="${left2_wheel_x}" link_y="${left2_wheel_y}" link_z="${camera_z}" link_r="0" link_p="0" link_yaw="${M_PI/2 + M_PI/6}" />
+
+  <xacro:sonar_link_gen parent="base_link" link_name="sonar_link_2" link_x="${right_wheel_x}" link_y="${right_wheel_y}" link_z="${camera_z}" link_r="0" link_p="0" link_yaw="${0}" />
+
+  <xacro:sonar_link_gen parent="base_link" link_name="sonar_link_3" link_x="${left_wheel_x}" link_y="${left_wheel_y}" link_z="${camera_z}" link_r="0" link_p="0" link_yaw="${-(M_PI/2 + M_PI/6)}" />
+
 
   
     <link name="link_right_wheel">
