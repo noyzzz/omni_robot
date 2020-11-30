@@ -7,7 +7,7 @@ robot:
     right_joint_velocity_controller:
         type: effort_controllers/JointVelocityController
         joint: joint_right_wheel
-        pid: {p: 10.0, i: 10.0, d: 0.01}
+        pid: {p: 2.0, i: 5.0, d: 1.1, i_clamp_min: -255.0, i_clamp_max: 255, antiwindup: True}
 
     left_joint_velocity_controller:
         type: effort_controllers/JointVelocityController
@@ -18,3 +18,9 @@ robot:
         type: effort_controllers/JointVelocityController
         joint: joint_left2_wheel
         pid: {p: 10.0, i: 10.0, d: 0.01}
+
+
+    right_joint_position_controller:
+      type: effort_controllers/JointPositionController
+      joint: joint_right_wheel
+      pid: {p: 100.0, i: 0.0, d: 5, i_clamp_min: -130.0, i_clamp_max: 130, antiwindup: True}
