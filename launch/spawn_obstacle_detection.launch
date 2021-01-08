@@ -17,7 +17,7 @@
     
   <!--Gazebo empty world launch file-->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-     <arg name="world_name" value="$(find rob_pkg)/worlds/simple_wall.world"/>
+     <arg name="world_name" value="$(find rob_pkg)/worlds/walls_surrounding.world"/>
     	<arg name="debug" value="false" />
     	<arg name="gui" value="true" />
     	<arg name="paused" value="false"/>

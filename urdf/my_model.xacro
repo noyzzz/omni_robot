@@ -13,7 +13,7 @@
 
 <xacro:property name="right_wheel_length" value="${rob_scale*0.07}"/>
 <xacro:property name="right_wheel_radius" value="${rob_scale*0.27}"/>
-<xacro:property name="right_wheel_mass" value="${rob_scale*100}"/>
+<xacro:property name="right_wheel_mass" value="${rob_scale*40}"/>
 
 
 
@@ -24,7 +24,7 @@
 
 <xacro:property name="left_wheel_length" value="${rob_scale*0.07}"/>
 <xacro:property name="left_wheel_radius" value="${rob_scale*0.27}"/>
-<xacro:property name="left_wheel_mass" value="${rob_scale*100}"/>
+<xacro:property name="left_wheel_mass" value="${rob_scale*40}"/>
 
 
 
@@ -34,7 +34,7 @@
 
 <xacro:property name="left2_wheel_length" value="${rob_scale*0.07}"/>
 <xacro:property name="left2_wheel_radius" value="${rob_scale*0.27}"/>
-<xacro:property name="left2_wheel_mass" value="${rob_scale*100}"/>
+<xacro:property name="left2_wheel_mass" value="${rob_scale*40}"/>
 
 <xacro:property name="sensor_size" value="${rob_scale*0.1}"/>
 
@@ -88,17 +88,41 @@
   <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
   <robotNamespace>/robot</robotNamespace> 
   </plugin>
+  <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+  <alwaysOn>true</alwaysOn>
+  <updateRate>50.0</updateRate>
+  <bodyName>base_link</bodyName>
+  <topicName>odom</topicName>
+  <gaussianNoise>0.01</gaussianNoise>
+  <frameName>world</frameName>
+  <xyzOffsets>0 0 0</xyzOffsets>
+  <rpyOffsets>0 0 0</rpyOffsets>
+</plugin>
 </gazebo>
+
 
   
      <xacro:macro name="surface_gen" params="main_link_name">
       <gazebo reference="${main_link_name}">
-      <mu1>500.0</mu1>
-      <mu2>0.0</mu2>
+      <mu1>5000.0</mu1>
+      <mu2>0</mu2>
       <fdir1>1 0 0</fdir1>
       <maxContacts>1</maxContacts>
       <minDepth>0.005</minDepth>
       <gravity>true</gravity>
+            <surface>
+      <friction>
+      <ode>
+      <slip1>0</slip1>
+      <slip2>0</slip2>
+    </ode>
+              <torsional>
+            <coefficient>1.0</coefficient>
+            <surface_radius>0.5</surface_radius>
+            <use_patch_radius>false</use_patch_radius>
+          </torsional>
+  </friction>
+</surface>
      <!--  <surface>
         <friction>
           <torsional>
@@ -279,12 +303,15 @@
     
   </xacro:macro>
  
+ <link name="dummy">
+   </link>
+
 
 <link name="base_link">
     <inertial>
-      <mass value="10"/>
+      <mass value="0.03"/>
       <origin xyz="0 0 ${base_z}" rpy="0 0 3.14"/>
-      <inertia ixx="0.738" ixy="0" ixz="0" iyy="0.738" iyz="-0.000000" izz="1.304"/>
+      <inertia ixx="0.0738" ixy="0" ixz="0" iyy="0.0738" iyz="-0.000000" izz="0.1304"/>
     </inertial>
 	<visual>
 	<origin xyz="0 0 ${base_z}" rpy="0 0 3.14"/>
@@ -301,7 +328,10 @@
     </collision>
 
   </link>
-
+  <joint name="dummy_joint" type="fixed">
+     <parent link="dummy"/>
+     <child link="base_link"/>
+   </joint>
   
   <xacro:camera_link parent="base_link" />
   
@@ -359,7 +389,7 @@
 
     <link name="link_left_wheel">
       <mass value="${left_wheel_mass}"/>
-      <origin rpy="0 ${M_PI/2} 1.0472" xyz="${left_wheel_x} ${left_wheel_y} ${left_wheel_z}"/>
+      <origin rpy="0 ${M_PI/2} ${M_PI/3}" xyz="${left_wheel_x} ${left_wheel_y} ${left_wheel_z}"/>
     <collision name="link_left_wheel_collision">
 	<geometry>
 	 <cylinder length="${left_wheel_length}" radius="${left_wheel_radius}" />
@@ -377,7 +407,7 @@
 
 
   <joint name="joint_left_wheel" type="continuous">
-  <origin rpy="0 ${M_PI/2} 1.0472" xyz="${left_wheel_x} ${left_wheel_y} ${left_wheel_z}"/>
+  <origin rpy="0 ${M_PI/2} ${M_PI/3}" xyz="${left_wheel_x} ${left_wheel_y} ${left_wheel_z}"/>
     <child link="link_left_wheel"/>
     <parent link="base_link"/>
     <axis rpy="0 0 0" xyz="0 0 1"/>
@@ -402,7 +432,7 @@
 
     <link name="link_left2_wheel">
       <mass value="${left2_wheel_mass}"/>
-      <origin rpy="0 ${M_PI/2} 2.0944" xyz="${left2_wheel_x} ${left2_wheel_y} ${left2_wheel_z}"/>
+      <origin rpy="0 ${M_PI/2} ${M_PI*2/3}" xyz="${left2_wheel_x} ${left2_wheel_y} ${left2_wheel_z}"/>
     <collision name="link_left2_wheel_collision">
 	<geometry>
 	 <cylinder length="${left2_wheel_length}" radius="${left2_wheel_radius}" />
@@ -419,7 +449,7 @@
 <xacro:surface_gen main_link_name="link_left2_wheel"/>
 
   <joint name="joint_left2_wheel" type="continuous">
-  <origin rpy="0 ${M_PI/2} 2.0944" xyz="${left2_wheel_x} ${left2_wheel_y} ${left2_wheel_z}"/>
+  <origin rpy="0 ${M_PI/2} ${M_PI*2/3}" xyz="${left2_wheel_x} ${left2_wheel_y} ${left2_wheel_z}"/>
     <child link="link_left2_wheel"/>
     <parent link="base_link"/>
     <axis rpy="0 0 0" xyz="0 0 1"/>
