@@ -1,0 +1,15 @@
+robot:
+  gazebo_ros_control:
+    pid_gains:
+      joint_right_wheel:
+        p: 1.0
+        i: 0.1
+        d: 0.1
+      joint_left_wheel:
+        p: 1.0
+        i: 0.1
+        d: 0.1
+      joint_left2_wheel:
+        p: 1.0
+        i: 0.1
+        d: 0.1

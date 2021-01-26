@@ -88,16 +88,6 @@
   <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
   <robotNamespace>/robot</robotNamespace> 
   </plugin>
-  <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
-  <alwaysOn>true</alwaysOn>
-  <updateRate>50.0</updateRate>
-  <bodyName>base_link</bodyName>
-  <topicName>odom</topicName>
-  <gaussianNoise>0.01</gaussianNoise>
-  <frameName>world</frameName>
-  <xyzOffsets>0 0 0</xyzOffsets>
-  <rpyOffsets>0 0 0</rpyOffsets>
-</plugin>
 </gazebo>
 
 
@@ -123,21 +113,6 @@
           </torsional>
   </friction>
 </surface>
-     <!--  <surface>
-        <friction>
-          <torsional>
-            <coefficient>10</coefficient>
-            <use_patch_radius>false</use_patch_radius>
-           
-            <surface_radius>0.02175</surface_radius>
-            <patch_radius>0.01</patch_radius>
-          </torsional>
-        </friction>
-        <contact>
-      <poissons_ratio>0.5</poissons_ratio>
-        <elastic_modulus>1e8</elastic_modulus>
-      </contact>
-    </surface> -->
   </gazebo>
   </xacro:macro> 
   
@@ -375,10 +350,10 @@
 <transmission name="transmission_right_wheel">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_right_wheel">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_right_wheel">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
     </actuator>
 </transmission>
@@ -418,10 +393,10 @@
 <transmission name="transmission_left_wheel">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_left_wheel">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_left_wheel">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
     </actuator>
 </transmission>
@@ -459,10 +434,10 @@
 <transmission name="transmission_left2_wheel">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_left2_wheel">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_left2_wheel">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
     </actuator>
 </transmission>
