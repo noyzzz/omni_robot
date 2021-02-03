@@ -80,10 +80,15 @@
   <gazebo reference="camera_link">
     <material>Gazebo/Blue</material>
   </gazebo>
-    <gazebo reference="sonar_link">
+    <gazebo reference="sonar_link_1">
     <material>Gazebo/Black</material>
   </gazebo>
-  
+    <gazebo reference="sonar_link_2">
+    <material>Gazebo/Black</material>
+  </gazebo>
+    <gazebo reference="sonar_link_3">
+    <material>Gazebo/Black</material>
+  </gazebo>
   <gazebo>
   <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
   <robotNamespace>/robot</robotNamespace> 
@@ -248,15 +253,15 @@
 	      <horizontal>
 		<samples>5</samples>
 		<resolution>1.0</resolution>
-		<min_angle>-0.1</min_angle>
-		<max_angle>0.1</max_angle>
+		<min_angle>${-M_PI/12}</min_angle>
+		<max_angle>${+M_PI/12}</max_angle>
 	      </horizontal>
-	      <vertical>
+<!-- 	      <vertical>
 		<samples>5</samples>
 		<resolution>1</resolution>
 		<min_angle>-0.1</min_angle>
 		<max_angle>0.1</max_angle>
-	      </vertical>
+	      </vertical> -->
 	    </scan>
 	    <range>
 	      <min>0.02</min>
@@ -312,11 +317,11 @@
   
 
 
-  <xacro:sonar_link_gen parent="base_link" link_name="sonar_link_1" link_x="${left2_wheel_x}" link_y="${left2_wheel_y}" link_z="${camera_z}" link_r="0" link_p="0" link_yaw="${M_PI/2 + M_PI/6}" />
+  <xacro:sonar_link_gen parent="base_link" link_name="sonar_link_1" link_x="${(left2_wheel_x + left_wheel_x)/1.45}" link_y="${(left2_wheel_y + left_wheel_y)/1.45}" link_z="${right_wheel_z}" link_r="0" link_p="0" link_yaw="${(M_PI)}" />
 
-  <xacro:sonar_link_gen parent="base_link" link_name="sonar_link_2" link_x="${right_wheel_x}" link_y="${right_wheel_y}" link_z="${camera_z}" link_r="0" link_p="0" link_yaw="${0}" />
+  <xacro:sonar_link_gen parent="base_link" link_name="sonar_link_2" link_x="${(right_wheel_x + left_wheel_x)/1.45}" link_y="${(right_wheel_y + left_wheel_y)/1.45}" link_z="${right_wheel_z}" link_r="0" link_p="0" link_yaw="${-(M_PI/3)}" />
 
-  <xacro:sonar_link_gen parent="base_link" link_name="sonar_link_3" link_x="${left_wheel_x}" link_y="${left_wheel_y}" link_z="${camera_z}" link_r="0" link_p="0" link_yaw="${-(M_PI/2 + M_PI/6)}" />
+  <xacro:sonar_link_gen parent="base_link" link_name="sonar_link_3" link_x="${(right_wheel_x + left2_wheel_x)/1.45}" link_y="${(right_wheel_y + left2_wheel_y)/1.4}" link_z="${right_wheel_z}" link_r="0" link_p="0" link_yaw="${(M_PI/3)}" />
 
 
   
