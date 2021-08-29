@@ -2,5 +2,3 @@ Our design flow’s well-organized steps aim to minimize the potential issues of
 
 [Visit this link for information](https://noyzzz.github.io/2021-07-07-omni_robot_markdown/)
 
-
-![bug2](https://noyzzz.github.io/assets/img/bug2.gif){: .mx-auto.d-block :}
